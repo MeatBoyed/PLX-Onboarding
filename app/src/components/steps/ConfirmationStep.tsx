@@ -3,14 +3,16 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { ChevronLeft, CheckCircle, MapPin, Wifi, User, Package, Loader2 } from "lucide-react";
 import { Location, Package as PackageType, OnboardingFormData, confirmationSchema } from "@/models/onboarding";
+import { pluxnetTheme, themeClasses } from "@/lib/theme";
 import { z } from "zod";
+import Image from "next/image";
 
 interface ConfirmationStepProps {
     selectedLocation: Location | null;
@@ -56,36 +58,50 @@ export function ConfirmationStep({
 
     if (submitted) {
         return (
-            <div className="text-center space-y-6">
-                <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
-                    <CheckCircle className="w-8 h-8 text-green-600" />
+            <div className="text-center space-y-8">
+                {/* Logo */}
+                <div className="flex justify-center">
+                    <Image 
+                        src={pluxnetTheme.images.logo} 
+                        alt={`${pluxnetTheme.branding.companyName} Logo`}
+                        width={200}
+                        height={80}
+                        className="h-16 w-auto"
+                    />
                 </div>
+                
+                {/* Success Icon */}
+                <div className={`mx-auto w-20 h-20 ${themeClasses.successBg}/10 rounded-full flex items-center justify-center`}>
+                    <CheckCircle className={`w-10 h-10 ${themeClasses.successText}`} />
+                </div>
+                
                 <div>
-                    <h2 className="text-2xl font-bold tracking-tight text-green-600">Order Confirmed!</h2>
-                    <p className="text-muted-foreground mt-2">
-                        Thank you for choosing PluxNet Fibre. We'll be in touch soon to schedule your installation.
+                    <h2 className={`text-3xl font-bold tracking-tight ${themeClasses.successText} mb-3`}>Order Confirmed!</h2>
+                    <p className="text-muted-foreground text-lg">
+                        Thank you for choosing {pluxnetTheme.branding.companyName}. We&apos;ll be in touch soon to schedule your installation.
                     </p>
                 </div>
-                <Card className="max-w-md mx-auto">
+                
+                <Card className={`max-w-md mx-auto ${themeClasses.card}`}>
                     <CardHeader>
-                        <CardTitle className="text-lg">What happens next?</CardTitle>
+                        <CardTitle className={`text-lg ${themeClasses.primaryText}`}>What happens next?</CardTitle>
                     </CardHeader>
-                    <CardContent className="space-y-3 text-left">
-                        <div className="flex items-start space-x-3">
-                            <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                                <span className="text-xs font-semibold text-primary">1</span>
+                    <CardContent className="space-y-4 text-left">
+                        <div className="flex items-start space-x-4">
+                            <div className={`w-8 h-8 rounded-full ${themeClasses.primaryBg}/10 flex items-center justify-center flex-shrink-0 mt-0.5`}>
+                                <span className={`text-sm font-semibold ${themeClasses.primaryText}`}>1</span>
                             </div>
-                            <p className="text-sm">We'll contact you within 24 hours to confirm your installation details</p>
+                            <p className="text-sm">We&apos;ll contact you within 24 hours to confirm your installation details</p>
                         </div>
-                        <div className="flex items-start space-x-3">
-                            <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                                <span className="text-xs font-semibold text-primary">2</span>
+                        <div className="flex items-start space-x-4">
+                            <div className={`w-8 h-8 rounded-full ${themeClasses.primaryBg}/10 flex items-center justify-center flex-shrink-0 mt-0.5`}>
+                                <span className={`text-sm font-semibold ${themeClasses.primaryText}`}>2</span>
                             </div>
                             <p className="text-sm">Our team will schedule a convenient installation time</p>
                         </div>
-                        <div className="flex items-start space-x-3">
-                            <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                                <span className="text-xs font-semibold text-primary">3</span>
+                        <div className="flex items-start space-x-4">
+                            <div className={`w-8 h-8 rounded-full ${themeClasses.primaryBg}/10 flex items-center justify-center flex-shrink-0 mt-0.5`}>
+                                <span className={`text-sm font-semibold ${themeClasses.primaryText}`}>3</span>
                             </div>
                             <p className="text-sm">Professional installation and setup of your high-speed fibre connection</p>
                         </div>

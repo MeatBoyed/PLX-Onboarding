@@ -27,11 +27,9 @@ type PackageForm = z.infer<typeof packageSelectionSchema>;
 
 export function PackageStep({
     packages,
-    selectedPackage,
     onPackageSelect,
     onNext,
     onPrevious,
-    canProceed,
     errors,
     initialData,
 }: PackageStepProps) {

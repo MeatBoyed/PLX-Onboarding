@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -9,7 +9,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { MapPin, Wifi, Package, CheckCircle, Search, CreditCard, AlertTriangle, Loader2, Phone, Mail } from "lucide-react";
-import { pluxnetTheme, themeClasses } from "@/lib/theme";
+import { pluxnetTheme, themeClasses, applyTheme } from "@/lib/theme";
+import Image from "next/image";
 
 export default function Home() {
   const [step, setStep] = useState(1);
@@ -102,7 +103,7 @@ export default function Home() {
       setStep(2);
     } else {
       // Address not serviceable
-      setAddressError("Unfortunately, we don't currently service this area. Please contact us at support@pluxnet.co.za or 011 123 4567 for assistance.");
+      setAddressError(`Unfortunately, we don't currently service this area. Please contact us at ${pluxnetTheme.branding.supportEmail} or ${pluxnetTheme.branding.supportPhone} for assistance.`);
     }
   };
 
@@ -114,18 +115,63 @@ export default function Home() {
 
   const progress = (step / 5) * 100;
 
-  return (
-    <div className={`min-h-screen ${themeClasses.backgroundGradient} ${pluxnetTheme.spacing.containerPadding}`}>
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold tracking-tight text-gray-900 mb-2">
-            Welcome to <span className={themeClasses.primaryText}>{pluxnetTheme.branding.companyName}</span>
-          </h1>
-          <p className="text-lg text-gray-600">
-            {pluxnetTheme.branding.tagline}
-          </p>
-        </div>
+  // Apply theme on component mount
+  useEffect(() => {
+    applyTheme(pluxnetTheme);
+  }, []);
 
+  return (
+    <div className={`min-h-screen ${themeClasses.backgroundGradient}`}>
+      {/* Landing Page Header */}
+      <div className="text-center pt-12 pb-8">
+        {/* Logo */}
+        <div className="flex justify-center mb-8">
+          <a 
+            href={pluxnetTheme.branding.website}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition-transform hover:scale-105"
+          >
+            <Image 
+              src={pluxnetTheme.images.logo} 
+              alt={`${pluxnetTheme.branding.companyName} Logo`}
+              width={280}
+              height={100}
+              className="h-20 w-auto"
+              priority
+            />
+          </a>
+        </div>
+        
+        {/* Title */}
+        <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
+          Welcome to <span className={themeClasses.primaryText}>{pluxnetTheme.branding.companyName}</span>
+        </h1>
+        <p className={`text-xl ${themeClasses.textSecondary} mb-2`}>
+          {pluxnetTheme.branding.tagline}
+        </p>
+        
+        {/* Contact Info */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 mt-6 text-sm">
+          <a 
+            href={`mailto:${pluxnetTheme.branding.supportEmail}`}
+            className={`flex items-center space-x-2 ${themeClasses.textSecondary} hover:${themeClasses.primaryText} transition-colors`}
+          >
+            <Mail className="w-4 h-4" />
+            <span>{pluxnetTheme.branding.supportEmail}</span>
+          </a>
+          <a 
+            href={`tel:${pluxnetTheme.branding.supportPhone.replace(/\s/g, '')}`}
+            className={`flex items-center space-x-2 ${themeClasses.textSecondary} hover:${themeClasses.primaryText} transition-colors`}
+          >
+            <Phone className="w-4 h-4" />
+            <span>{pluxnetTheme.branding.supportPhone}</span>
+          </a>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <main className="max-w-4xl mx-auto px-4">
         <Card className={`${themeClasses.card} shadow-xl border-0`}>
           <CardContent className={pluxnetTheme.spacing.cardPadding}>
             {/* Progress Bar */}
@@ -142,7 +188,7 @@ export default function Home() {
               <div className={pluxnetTheme.spacing.sectionSpacing}>
                 <div className="text-center mb-8">
                   <h2 className="text-2xl font-bold tracking-tight">Enter Your Service Address</h2>
-                  <p className="text-gray-600 mt-2">Let's check if we can bring high-speed fibre to your location</p>
+                  <p className="text-gray-600 mt-2">Let&apos;s check if we can bring high-speed fibre to your location</p>
                 </div>
 
                 {/* Address Search Input */}
@@ -188,18 +234,18 @@ export default function Home() {
                           <p className="text-sm text-red-800 mb-3">{addressError}</p>
                           <div className="flex flex-col sm:flex-row gap-3">
                             <a
-                              href="mailto:support@pluxnet.co.za"
-                              className="inline-flex items-center text-sm text-red-700 hover:text-red-900 underline"
+                              href={`mailto:${pluxnetTheme.branding.supportEmail}`}
+                              className="inline-flex items-center text-sm text-red-700 hover:text-red-900 underline transition-colors"
                             >
                               <Mail className="w-4 h-4 mr-1" />
-                              support@pluxnet.co.za
+                              {pluxnetTheme.branding.supportEmail}
                             </a>
                             <a
-                              href="tel:0111234567"
-                              className="inline-flex items-center text-sm text-red-700 hover:text-red-900 underline"
+                              href={`tel:${pluxnetTheme.branding.supportPhone.replace(/\s/g, '')}`}
+                              className="inline-flex items-center text-sm text-red-700 hover:text-red-900 underline transition-colors"
                             >
                               <Phone className="w-4 h-4 mr-1" />
-                              011 123 4567
+                              {pluxnetTheme.branding.supportPhone}
                             </a>
                           </div>
                         </div>
@@ -295,42 +341,53 @@ export default function Home() {
                   {packages.map((pkg) => (
                     <Card
                       key={pkg.id}
-                      className={`cursor-pointer ${pluxnetTheme.animations.transition} ${themeClasses.cardHover} border-2 ${formData.package === pkg.id ? `${themeClasses.primaryBorder} bg-blue-50` : 'border-gray-200'
-                        } ${pkg.id === 'premium' ? 'ring-2 ring-blue-200' : ''}`}
+                      className={`cursor-pointer ${pluxnetTheme.animations.transition} ${themeClasses.cardHover} border-2 relative ${
+                        formData.package === pkg.id 
+                          ? `${themeClasses.primaryBorder} ${themeClasses.primaryBg}/5` 
+                          : 'border-gray-200 hover:border-gray-300'
+                      } ${pkg.id === 'premium' ? 'ring-2 ring-purple-200' : ''}`}
                       onClick={() => updateFormData('package', pkg.id)}
                     >
                       {pkg.id === 'premium' && (
-                        <Badge className={`absolute -top-2 left-1/2 transform -translate-x-1/2 ${themeClasses.primaryBg}`}>
+                        <Badge className={`absolute -top-2 left-1/2 transform -translate-x-1/2 ${themeClasses.accentBg} text-white`}>
                           Most Popular
                         </Badge>
                       )}
                       <CardContent className="p-6">
-                        <div className="space-y-3">
+                        <div className="space-y-4">
                           <div className="flex items-center justify-between">
-                            <div className="flex items-center space-x-2">
-                              <Package className={`w-6 h-6 ${themeClasses.primaryText}`} />
+                            <div className="flex items-center space-x-3">
+                              <div className={`p-2 rounded-lg ${themeClasses.primaryBg}/10`}>
+                                <Package className={`w-6 h-6 ${themeClasses.primaryText}`} />
+                              </div>
                               <h3 className="text-xl font-bold">{pkg.name}</h3>
                             </div>
                             {formData.package === pkg.id && (
-                              <CheckCircle className={`w-5 h-5 ${themeClasses.primaryText}`} />
+                              <div className={`p-1 rounded-full ${themeClasses.primaryBg}`}>
+                                <CheckCircle className="w-4 h-4 text-white" />
+                              </div>
                             )}
                           </div>
-                          <div className={`text-3xl font-bold ${themeClasses.primaryText}`}>
-                            R{pkg.price}
+                          <div className="text-center py-2">
+                            <div className={`text-3xl font-bold ${themeClasses.primaryText}`}>
+                              R{pkg.price}
+                            </div>
                             <span className="text-sm font-normal text-gray-600">/month</span>
+                            <div className={`text-lg font-semibold ${themeClasses.accentText} mt-1`}>
+                              {pkg.speed}
+                            </div>
                           </div>
-                          <div className="text-lg font-semibold">{pkg.speed}</div>
-                          <p className="text-sm text-gray-600">{pkg.description}</p>
+                          <p className="text-sm text-gray-600 text-center">{pkg.description}</p>
 
                           {/* Features List */}
-                          <ul className="space-y-1 mt-4">
-                            {pkg.features.slice(0, 3).map((feature, index) => (
-                              <li key={index} className="flex items-center text-sm">
-                                <CheckCircle className={`w-3 h-3 ${themeClasses.successText} mr-2 flex-shrink-0`} />
-                                {feature}
-                              </li>
+                          <div className="space-y-2 pt-2">
+                            {pkg.features.slice(0, 4).map((feature, index) => (
+                              <div key={index} className="flex items-center text-sm">
+                                <CheckCircle className={`w-4 h-4 ${themeClasses.successText} mr-3 flex-shrink-0`} />
+                                <span>{feature}</span>
+                              </div>
                             ))}
-                          </ul>
+                          </div>
                         </div>
                       </CardContent>
                     </Card>
@@ -715,7 +772,7 @@ export default function Home() {
                   </div>
                   <h2 className={`text-2xl font-bold ${themeClasses.successText}`}>Order Confirmed!</h2>
                   <p className="text-gray-600 mt-2">
-                    Thank you for choosing {pluxnetTheme.branding.companyName}. We'll be in touch soon to schedule your installation.
+                    Thank you for choosing {pluxnetTheme.branding.companyName}. We&apos;ll be in touch soon to schedule your installation.
                   </p>
                 </div>
 
@@ -759,7 +816,7 @@ export default function Home() {
                       <div className={`w-6 h-6 rounded-full ${themeClasses.primaryBg}/10 flex items-center justify-center flex-shrink-0 mt-0.5`}>
                         <span className={`text-xs font-semibold ${themeClasses.primaryText}`}>1</span>
                       </div>
-                      <p className="text-sm">We'll contact you within 24 hours to confirm your installation details</p>
+                      <p className="text-sm">We&apos;ll contact you within 24 hours to confirm your installation details</p>
                     </div>
                     <div className="flex items-start space-x-3">
                       <div className={`w-6 h-6 rounded-full ${themeClasses.primaryBg}/10 flex items-center justify-center flex-shrink-0 mt-0.5`}>
@@ -796,19 +853,25 @@ export default function Home() {
           </CardContent>
         </Card>
 
-        <div className="text-center mt-8 text-sm text-gray-600">
-          <p>
+        <div className="text-center mt-8 text-sm">
+          <p className={themeClasses.textSecondary}>
             Need help? Contact our support team at{" "}
-            <a href="mailto:support@pluxnet.co.za" className="text-blue-600 hover:underline">
-              support@pluxnet.co.za
+            <a 
+              href={`mailto:${pluxnetTheme.branding.supportEmail}`} 
+              className={`${themeClasses.primaryText} hover:underline transition-colors`}
+            >
+              {pluxnetTheme.branding.supportEmail}
             </a>{" "}
             or{" "}
-            <a href="tel:+27118001234" className="text-blue-600 hover:underline">
-              +27 11 800 1234
+            <a 
+              href={`tel:${pluxnetTheme.branding.supportPhone.replace(/\s/g, '')}`} 
+              className={`${themeClasses.primaryText} hover:underline transition-colors`}
+            >
+              {pluxnetTheme.branding.supportPhone}
             </a>
           </p>
         </div>
-      </div>
+        </main>
     </div>
   );
 }

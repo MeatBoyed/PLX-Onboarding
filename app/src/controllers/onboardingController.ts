@@ -111,10 +111,11 @@ export const useOnboardingController = () => {
                 default:
                     return false;
             }
-        } catch (error: any) {
-            if (error.errors) {
+        } catch (error: unknown) {
+            if (error && typeof error === 'object' && 'errors' in error) {
+                const zodError = error as { errors: Array<{ path: string[]; message: string }> };
                 const newErrors: Record<string, string[]> = {};
-                error.errors.forEach((err: any) => {
+                zodError.errors.forEach((err) => {
                     const field = err.path.join('.');
                     if (!newErrors[field]) newErrors[field] = [];
                     newErrors[field].push(err.message);
@@ -139,18 +140,6 @@ export const useOnboardingController = () => {
     const canProceed = useCallback(() => {
         return validateCurrentStep();
     }, [validateCurrentStep]);
-
-    // Validate personal details
-    const validatePersonalDetails = useCallback(() => {
-        if (!formData.personalDetails) return false;
-
-        try {
-            personalDetailsSchema.parse(formData.personalDetails);
-            return true;
-        } catch {
-            return false;
-        }
-    }, [formData.personalDetails]);
 
     // Submit form to N8N workflow
     const submitForm = useCallback(async () => {

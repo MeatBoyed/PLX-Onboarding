@@ -26,10 +26,8 @@ type LocationForm = z.infer<typeof locationSelectionSchema>;
 
 export function LocationStep({
     locations,
-    selectedLocation,
     onLocationSelect,
     onNext,
-    canProceed,
     errors,
     initialData,
 }: LocationStepProps) {
@@ -55,7 +53,7 @@ export function LocationStep({
             <div className="text-center">
                 <h2 className="text-2xl font-bold tracking-tight">Choose Your Service Location</h2>
                 <p className="text-muted-foreground mt-2">
-                    Select the area where you'd like PluxNet Fibre installed
+                    Select the area where you&apos;d like PluxNet Fibre installed
                 </p>
                 {errors?.location && (
                     <div className="mt-3 p-3 bg-destructive/10 border border-destructive/20 rounded-md">

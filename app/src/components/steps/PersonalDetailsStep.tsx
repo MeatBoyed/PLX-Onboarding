@@ -10,14 +10,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { ChevronLeft, User, MapPin, Wifi, FileText } from "lucide-react";
-import { personalDetailsSchema } from "@/models/onboarding";
+import { personalDetailsSchema, OnboardingFormData } from "@/models/onboarding";
 import { z } from "zod";
 
 interface PersonalDetailsStepProps {
     onNext: () => void;
     onPrevious: () => void;
-    onUpdateData: (data: any) => void;
-    canProceed: boolean;
+    onUpdateData: (stepData: Partial<OnboardingFormData>) => void;
     errors?: Record<string, string[]>;
     initialData?: z.infer<typeof personalDetailsSchema>;
 }
@@ -28,8 +27,6 @@ export function PersonalDetailsStep({
     onNext,
     onPrevious,
     onUpdateData,
-    canProceed,
-    errors: propErrors,
     initialData,
 }: PersonalDetailsStepProps) {
     const form = useForm<PersonalDetailsForm>({

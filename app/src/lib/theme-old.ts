@@ -121,15 +121,19 @@ export const cssVariables = `
 `;
 
 // Utility function to get theme colors
-export const getThemeColor = (colorPath: string) => {
+export const getThemeColor = (colorPath: string): string => {
   const paths = colorPath.split('.');
-  let result: any = pluxnetTheme.colors;
+  let result: Record<string, unknown> = pluxnetTheme.colors;
   
   for (const path of paths) {
-    result = result[path];
+    if (result && typeof result === 'object' && path in result) {
+      result = result[path] as Record<string, unknown>;
+    } else {
+      return '';
+    }
   }
   
-  return result;
+  return result as unknown as string;
 };
 
 // Theme utility classes

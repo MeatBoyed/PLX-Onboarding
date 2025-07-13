@@ -1,6 +1,28 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* PluxNet Brand CSS Variables */
+:root {
+  /* Default PluxNet theme colors */
+  --brand-primary: #301358;
+  --brand-primary-hover: #5B3393;
+  --brand-secondary: #F2F2F2;
+  --brand-accent: #F60031;
+  --text-primary: #181818;
+  --text-secondary: #5D5D5D;
+  --text-tertiary: #7A7A7A;
+  --text-muted: #CECECE;
+  --surface-card: #F2F2F2;
+  --surface-white: #FFFFFF;
+  --surface-border: #CECECE;
+  --button-primary: #301358;
+  --button-primary-hover: #5B3393;
+  --button-primary-text: #FFFFFF;
+  --button-secondary: #FFFFFF;
+  --button-secondary-hover: #f5f5f5;
+  --button-secondary-text: #301358;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {

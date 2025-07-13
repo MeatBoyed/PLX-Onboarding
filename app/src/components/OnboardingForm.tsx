@@ -66,7 +66,6 @@ export function OnboardingForm() {
                         onNext={nextStep}
                         onPrevious={previousStep}
                         onUpdateData={updateFormData}
-                        canProceed={canProceed()}
                         errors={errors}
                     />
                 );
